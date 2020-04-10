@@ -15,7 +15,7 @@ side_bar_repo_limit: 5
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: Du JiShi
+author: dujishi
 organization: 
 organization_url: 
 github_username: dujishi
@@ -102,7 +102,7 @@ disqus:
 #         client_secret: b42a4178e5fd4a7cf63189ef4b1453b05c375709
 # https://github.com/gitalk/gitalk#install
 gitalk:
-    owner: Du JiShi
+    owner: dujishi
     repo: blog
     clientID: 92f74fb5e0e2b393bebb
     clientSecret: 385ea3001d279b3b3bddc5b2ea9c96c9a45391dc
