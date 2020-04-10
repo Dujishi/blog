@@ -81,7 +81,7 @@ collections:
         output: true
         permalink: /wiki/:path/
 
-repository: dujishi/dujishi.github.io
+repository: dujishi.github.io/blog
 
 # ---------------- #
 #      Comments    #
