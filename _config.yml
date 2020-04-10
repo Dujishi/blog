@@ -103,7 +103,7 @@ disqus:
 # https://github.com/gitalk/gitalk#install
 gitalk:
     owner: dujishi
-    repo: blog-comments
+    repo: blog
     clientID: 92f74fb5e0e2b393bebb
     clientSecret: 385ea3001d279b3b3bddc5b2ea9c96c9a45391dc
 # 在使用其它评论组件时可点击显示 Disqus
