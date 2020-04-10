@@ -72,7 +72,7 @@ CSDN 账号过一段时间就会累积几十个下载过但是未评论打分的
 
 ```python
 # File   : csdncommenter.py
-# Author : Zhuang Ma
+# Author : Du JiShi
 # E-mail : chumpma(at)gmail.com
 # Website: https://mazhuang.org
 # Date   : 2016-07-26
