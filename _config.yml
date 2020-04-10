@@ -2,7 +2,7 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: https://mazhuang.org
+url: http://www.shf2e.club
 date_format: "ordinal"
 title: 码志
 subtitle: "公众号：闷骚的程序员"
@@ -15,10 +15,10 @@ side_bar_repo_limit: 5
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: Zhuang Ma
+author: Du JiShi
 organization: 
 organization_url: 
-github_username: mzlogin
+github_username: dujishi
 location: Wuhan, China
 email: chumpma@gmail.com
 
