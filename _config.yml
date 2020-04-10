@@ -2,7 +2,7 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: http://www.shf2e.club
+url: 
 date_format: "ordinal"
 title: 码志
 subtitle: "公众号：闷骚的程序员"
@@ -19,8 +19,8 @@ author: Du JiShi
 organization: 
 organization_url: 
 github_username: dujishi
-location: Wuhan, China
-email: chumpma@gmail.com
+location: ShangHai, China
+email: dujishi@gmail.com
 
 # ---------------- #
 #    Navigation    #
