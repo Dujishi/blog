@@ -2,25 +2,25 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: https://shf2e.club
+url: https://mazhuang.org
 date_format: "ordinal"
-title: 每日分享
-subtitle: "技术需要每天不断地学习"
-description: "杜继师的个人学习博客"
-keywords: 杜继师,blog,学习博客
-timezone: China/Shanghai
+title: 码志
+subtitle: "公众号：闷骚的程序员"
+description: "马壮的个人博客，公众号：闷骚的程序员"
+keywords: 码志, Zhuang Ma, mzlogin, mazhuang, 闷骚的程序员
+timezone: Asia/Shanghai
 encoding: "utf-8"
 side_bar_repo_limit: 5
 
 # ---------------- #
 #      Author      #
 # ---------------- #
-author: Du Ji Shi
+author: Zhuang Ma
 organization: 
 organization_url: 
-github_username: dujishi
-location: ShangHai, China
-email: dujishi@gmail.com
+github_username: mzlogin
+location: Wuhan, China
+email: chumpma@gmail.com
 
 # ---------------- #
 #    Navigation    #
@@ -81,7 +81,7 @@ collections:
         output: true
         permalink: /wiki/:path/
 
-repository: dujishi/dujishi.github.io
+repository: mzlogin/mzlogin.github.io
 
 # ---------------- #
 #      Comments    #
