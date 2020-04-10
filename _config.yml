@@ -2,7 +2,7 @@
 #   Main Configs   #
 # ---------------- #
 baseurl:
-url: https://www.shf2e.club/
+url: 
 date_format: "ordinal"
 title: 杜继师的博客
 subtitle: "每周技术分享"
