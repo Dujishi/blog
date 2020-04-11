@@ -147,9 +147,9 @@ $(document).ready(function(){
 
   $(window).scroll(function() {
     var currentScroll = $(window).scrollTop();
-    if (currentScroll >= fixmeTop+75) {
+    if (currentScroll >= fixmeTop-50) {
       $('#post-directory-module').css({
-        top: '100',
+        top: '50',
         position: 'fixed',
         width: 'inherit'
       });
