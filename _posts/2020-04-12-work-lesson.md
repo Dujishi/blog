@@ -22,7 +22,7 @@ keywords: 教训
 
 不然就有可能陷入一个怪圈：
 
-![meet-problem](/images/blog/meet-problem.png)
+![meet-problem](/images/posts/blog/meet-problem.png)
 
 尽量做到知其然且知其所以然，让知识点之间关联成或大或小的知识岛，不然临时学到的那一丁点知识因为是孤立的小石礁，会很快就被脑海里每天接纳的大量信息淹没。
 
@@ -34,11 +34,11 @@ keywords: 教训
 
 第一种：（我管它叫广度优先）
 
-![solve-method1](/images/blog/solve-method1.png)
+![solve-method1](/images/posts/blog/solve-method1.png)
 
 第二种：（我管它叫深度优先）
 
-![solve-method2](/images/blog/solve-method2.png)
+![solve-method2](/images/posts/blog/solve-method2.png)
 
 对于不同的问题，在思考解决方案的可行性、付诸行动时，哪一种思维方式更加合理呢？尝试去解决问题的我对此不能没有概念，迷糊中下意识地去跨出步子将必然是低效的。
 
@@ -55,8 +55,6 @@ keywords: 教训
 **学习的方法。**
 
 学习一样东西的时候，不要一股脑盲目扑上去，结合以往类似的经验，选择几条线纵深切入，在过程中有机会再做一定程度的横向扩展。
-
-比如学习Android的应用编程，可以从线程、生命周期、动画等一些常用且非常重要的点去突破。
 
 **一次只做一件事。**
 
