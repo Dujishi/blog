@@ -6,6 +6,7 @@
     font-size: 14px;
     background: #fff;
     overflow: hidden;
+    min-width:220px;
     max-width: 280px;
     padding-bottom: 1em;
     border: 1px solid #efefef;
