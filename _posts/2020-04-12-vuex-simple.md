@@ -12,7 +12,7 @@ keywords: Vuex简易
 >
 > ——Vuex官网
 
-![](blog/images/posts/js/vuex.png)
+![](/images/posts/js/vuex.png)
 
 ## Vuex 核心思想
 
