@@ -190,6 +190,74 @@ window.dispatchEvent(event);
 
 window.addEventListener('myEvent',e=>console.log(e.detail)); 
  //'我是数据'
+
+
+tips：对象原型封装js自定义事件
+ //自定义事件构造函数
+function EventBus(){
+  //事件处理程序数组集合
+  this.events = {};
+}
+//自定义事件的原型对象
+EventBus.prototype = {
+  //设置原型构造函数链
+  constructor: EventBus,
+  //注册给定类型的事件处理程序，
+  //type -> 自定义事件类型， callback -> 自定义事件回调函数
+  on: function(type, callback){
+    //判断事件处理数组是否有该类型事件
+    if(typeof this.events[type] === 'undefined'){
+      this.events[type] = [];
+    }
+    //将处理事件push到事件处理数组里面
+    this.events[type].push(callback);
+  },
+
+  //触发一个事件
+  //event -> 为一个js对象，属性中至少包含type属性，
+  //因为类型是必须的，其次可以传一些处理函数需要的其他变量参数。
+  emit: function(event){
+    //模拟真实事件的event
+    if(!event.target){
+      event.target = this;
+    }
+    //判断是否存在该事件类型
+    if(this.events[event.type] instanceof Array){
+      var events = this.events[event.type];
+      //在同一个事件类型下的可能存在多种处理事件，找出本次需要处理的事件
+      for(var i = 0; i < events.length; i++){
+        //执行触发
+        events[i](event);
+      }
+    }
+  },
+  //注销事件
+  off: function(type, callback){
+    //判断是否存在该事件类型
+    if(this.events[type] instanceof Array){
+      var events = this.events[type];
+      //在同一个事件类型下的可能存在多种处理事件
+      for(var i = 0; i < events.length; i++){
+        //找出本次需要处理的事件下标
+        if(events[i] == callback){
+          //从事件处理数组里面删除
+          events.splice(i, 1);
+          break;
+        }
+      }
+    }
+  },
+  //触发一次事件
+  once:function(type,callback){
+    var self = this
+    //重新封装callback
+    var temp = function(){
+      callback.apply(self)
+      self.off(type)
+    }
+    self.on(type,temp)
+  }
+};
 ```
 
 ## 14. JS中数组方法 forEach、map、every、some返回值、原数组是否变化
