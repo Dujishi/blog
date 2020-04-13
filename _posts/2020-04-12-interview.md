@@ -353,6 +353,17 @@ JS的执行机制(二)
 apply第二个参数是数组（是函数的所有参数），call把apply的第二个参数单列出来。
 ```
 
+## 19.谈一下隐式类型转换
+```js
+JavaScript 中的类型转换，分为显式类型转换和隐式类型转换，当我们用 Number() 等函数的时候，就是显式类型转换，
+其转换规则是当是基本类型时，参照规范中的对应表进行转换，当不是基本类型的时候，
+先参照规范中的 ToPrimitive 方法转换为基本类型，再按照对应表转换，
+当执行 ToPrimitive 的时候，又会根据情况不同，判断先执行对象的 valueOf 方法还是 toString 方法进行转换。
+
+而当我们进行运算的时候，经常发生的就是隐式类型转换，比如 + 和 == 运算符，当 + 运算符的时候，更倾向于转成字符串，
+而当 == 的时候，更倾向于转为数字。
+```
+
 # 二、vue全家桶
 
 ## 1. ​vue 双向数据绑定原理
@@ -559,7 +570,8 @@ beforeEach 方式
 （1）代码层面的优化
 
 v-if 和 v-show 区分使用场景、computed 和 watch  区分使用场景、v-for 遍历必须为 item 添加 key，
-且避免同时使用 v-if、长列表性能优化、事件的销毁、图片资源懒加载、路由懒加载、第三方插件的按需引入、优化无限列表性能、服务端渲染 SSR or 预渲染
+且避免同时使用 v-if、长列表性能优化、事件的销毁、图片资源懒加载、路由懒加载、第三方插件的按需引入、优化无限列表性能、
+服务端渲染 SSR or 预渲染
 
 （2）Webpack 层面的优化
 
@@ -571,7 +583,7 @@ Webpack 对图片进行压缩、减少 ES6 转为 ES5 的冗余代码、提取�
 开启 gzip 压缩、浏览器缓存、CDN 的使用
 ```
 
-## 18. Proxy 与 Object.defineProperty 优劣对比（vue3.0使用的就是porxy）
+## 18. Proxy 与 Object.defineProperty 优劣对比
 ```js
 Proxy 的优势如下:
 
@@ -588,9 +600,108 @@ Object.defineProperty 的优势如下:
 ```js
 先定义了一个callbacks 存放所有的nextTick里的回调函数
 然后判断一下当前的浏览器内核是否支持 Promise，如果支持，就用Promise来触发回调函数
-如果不支持Promise再看看是否支持MutationObserver，是一个可以监听DOM结构变化的接口，观察文本节点发生变化时，触发执行所有回调函数。
+如果不支持Promise再看看是否支持MutationObserver，是一个可以监听DOM结构变化的接口，
+观察文本节点发生变化时，触发执行所有回调函数。
 如果以上都不支持就只能用setTimeout来完成异步执行了。
 ```
+## 20.Vue中如何实现异步渲染？
+```js
+在Vue中异步渲染实际在数据每次变化时，将其所要引起页面变化的部分都放到一个异步API的回调函数里，
+直到同步代码执行完之后，异步回调开始执行，最终将同步代码里所有的需要渲染变化的部分合并起来，
+最终执行一次渲染操作。
+```
+
+## 21.Vuex实现原理
+```js
+调用了Vue.mixin，在所有组件的 beforeCreate生命周期注入了设置 $store这样一个对象。
+// 自定义 vuex
+
+自定义 vuex
+
+var Vue // 设置全局对象Vue 存储下来vue对象
+// 数据存储类
+class Store {
+  constructor(options) { // 构造函数；new 类Store会初始化构造函数；
+    //options即为new Vuex时传的state、mutations、actions等参数
+    // state
+    this.vm = new Vue({ // 实例化一个Vue对象，将 外面 Vuex的参数传进来
+      data: {
+        state: options.state // 将 Vuex的参数 state 传进来，为的是实现数据的监听
+      }
+    })
+
+    // getters
+    const getters = options.getters
+    this.getters = {}
+    Object.keys(getters).forEach(getterName => { // getterName是myNum
+      Object.defineProperty(this.getters, getterName, { 
+        // es5 添加对象属性: 给this.getters添加 getterName的属性
+        get: () => { // getterName 属性 添加查询方法get
+          return getters[getterName](this.state) 
+          // getters[getterName]：拿到方法 myNum，传入参数(this.state)
+        }
+      })
+    })
+
+    // mutations 同步
+    const mutations = options.mutations
+    this.mutations = {}
+    Object.keys(mutations).forEach(mutationName => {
+      this.mutations[mutationName] = (params) => {
+        mutations[mutationName](this.state, params)
+      }
+    })
+
+    // actions 异步
+    const actions = options.actions
+    this.actions = {}
+    Object.keys(actions).forEach(actionName => {
+      this.actions[actionName] = (params) => {
+        // this.actions[actionName]: 给当前对象this.actions 添加函数，函数名是actionName
+        actions[actionName](this, params) // 真正执行的函数 是外面传进来的
+      }
+    })
+  }
+  dispatch(type, params) { // 异步增加
+    this.actions[type](params)
+  }
+  commit = (type, params) => { // 同步增加 箭头函数 this不会变
+    this.mutations[type](params)
+  }
+  get state() {
+    return this.vm.state
+  }
+}
+
+// 插件需要
+const install = (v) => {
+  // console.log(v)  // 打印出来这个v就是Vue对象
+  Vue = v // 使用全局对象Vue存储下来
+
+  // 这个插件的作用：需要在所有的组件中添加$store对象
+  // 才能让所有的组件中使用this.$store.commit()调用方法
+  // 所有的根组件和子组件中，跟组件是在main.js中引入store，子组件呢，子组件通过mixin方法找到
+
+  Vue.mixin({ // Vue 提供的方法 混合，通过这个可以给每个子组件加上store属性
+    beforeCreate() { // 组件初始化之前 添加生命周期
+      // this： 当前实例对象，每个组件都有一个options - name ： 组建的名字
+      // 打印出 undefined 和 APP
+      // undefined 是根组件，即 main.js
+      console.log(this.$options.name)
+
+      // 只有根节点有store 存在参数配置项且store存在 把根节点的store赋值给新命名的对象$store
+      if (this.$options && this.$options.store) { // 判断当前是父节点 root
+        this.$store = this.$options.store
+      } else { // 判断当前是子节点 child 父节点存在 并且 父节点的$store对象存在 就赋值
+        this.$store = this.$parent && this.$parent.$store
+      }
+    }
+  })
+}
+
+export default { install, Store }
+```
+
 
 
 
@@ -692,6 +803,35 @@ CSRF是借用了操作者的权限来偷偷的完成某个操作，而不是拿�
 预防CSRF就是加入各个层级的权限验证，例如现在的购物网站，只要涉及到金钱交易，
 肯定要输入密码或者指纹才行。除此之外，敏感的接口使用POST而不是GET也是很重要的。
 ```
+
+## 4.怎么与服务端保持连接
+```js
+和服务端保持连接，最简单粗暴的方法就是通过请求轮询保持跟服务端的通信，客户端不光要花成本维护定时轮询器，
+还会使得服务器压力变大，所以不推荐。
+还有一种可以借助请求超时的设置，将超时时间设置一个足够大的值，客户端发起连接后，
+只要服务端不返回消息，整个连接阶段都会受到阻塞，所以这种方式也不推荐。
+最后一种是WebSocket，当服务器完成协议从HTTP到WebSocket的升级后，服务端可以主动推送信息给客户端，
+解决了轮询造成的同步延迟问题。由于 WebSocket 只需要一次 HTTP 握手，服务端就能一直与客户端保持通信，直到关闭连接，
+这样就解决了服务器需要反复解析 HTTP 协议，减少了资源的开销。
+```
+
+## 5.输入url后发生了什么
+```js
+从耗时过程来看，可以分为DNS解析、TCP连接、HTTP请求与响应、客户端浏览器解析渲染、连接结束。
+其中浏览器解析渲染包含HTML词法、语法的解析、CSS解析、DOM树生成、渲染树建立、屏幕绘制。
+
+```
+
+## CDN的原理
+```js
+CDN的基本原理是广泛采用各种缓存服务器，将这些缓存服务器分布到用户访问相对集中的地区或网络中，在用户访问网站时，
+利用全局负载技术将用户的访问指向距离最近的工作正常的缓存服务器上，由缓存服务器直接响应用户请求。
+最简单的CDN网络由一个DNS 服务器和几台缓存服务器就可以组成，当用户输入URL按下回车，经过本地DNS系统解析，
+DNS系统会最终将域名的解析权交给CNAME指向的CDN专用DNS服务器，然后将得到全局负载均衡设备的IP地址，
+用户向全局负载均衡设备发送内容访问请求，全局负载均衡设备将实时地根据网络流量和各节点的连接、
+负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上，使用户可就近取得所需内容，
+解决 Internet网络拥挤的状况，提高用户访问网站的响应速度
+```
     
 
 # 四、性能及webpack相关
@@ -706,13 +846,27 @@ CSRF是借用了操作者的权限来偷偷的完成某个操作，而不是拿�
 ## 2. ​谈谈你对前端性能优化的理解 
 ```js
 a. 请求数量：合并脚本和样式表，CSS Sprites，拆分初始化负载，划分主域
-
 b. 请求带宽：开启GZip，精简JavaScript，移除重复脚本，图像优化，将icon做成字体
-
 c. 缓存利用：使用CDN，使用外部JavaScript和CSS，添加Expires头，减少DNS查找，配置ETag，使AjaX可缓存
-
 d. 页面结构：将样式表放在顶部，将脚本放在底部，尽早刷新文档的输出
-
 e. 代码校验：避免CSS表达式，避免重定向
+
+
+• 分屏加载，当页面需要渲染的数据较多时，先渲染首屏，下滑时再加载第二屏的数据；
+• 图片大小优化，在不影响视觉效果的前提下，把图片尺寸降到最小；
+• 图片懒加载，on appear时再加载图片；
+• Code splitting，或者拆包，应用下的某些组件不需要立刻import，可以采用动态import的方式，
+打包时也可以将它们打到不同的bundle里，给index bundle瘦身；
+• Chrome Devtools - Trace & Timeline等一系列强大的分析工具可以去研究一下，
+它们可以深入到内核分析应用的性能问题所在；
+
 ```
+## 3.如何加快首屏渲染，你有哪些方案?
+```js
+降低请求量：合并资源，减少 HTTP 请求数，minify / gzip 压缩，webP，lazyload。
+加快请求速度：预解析DNS，减少域名数，并行加载，CDN 分发。
+增加缓存：HTTP 协议缓存请求，离线缓存 manifest，离线数据缓存 localStorage、PWA。
+渲染优化：首屏内容最小化，JS/CSS优化，加载顺序，服务端渲染，pipeline。
+```
+
 
