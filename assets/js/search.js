@@ -2,7 +2,7 @@ jQuery(function() {
     function adjust_search_box_width() {
         if ($(".post-directory").length) {
             if ($(".post-directory").is(":visible")) {
-                $("#site_search").width(220);
+                $("#site_search").width(280);
             }
         }
         var searchbar_width = $("#site_search").width();
