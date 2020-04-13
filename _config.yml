@@ -1,7 +1,7 @@
 # ---------------- #
 #   Main Configs   #
 # ---------------- #
-baseurl:
+baseurl: https://dujishi.github.io/blog
 url: https://dujishi.github.io/blog
 date_format: "ordinal"
 title: 杜继师的博客
