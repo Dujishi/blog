@@ -106,4 +106,6 @@ class Vue{
 
 这个我们在 Vue 的构造类中处理。新建一个Watcher对象只需要 new 出来，这时候Dep.target已经 指向了这个 new 出来的Watcher对象来。而触发get方法也很简单，实际上只要把 renderfunction 进行渲染，那么其中的依赖的对象都会被「读取」，这里我们通过打印来模拟这个过程，读取 test 来触 发 get 进行「依赖收集」。
 
-一句话：就是 get 进行「依赖收集」。 set 通过观察者来更新视图，配合下图仔细捋一捋，相信一定能搞 懂它!
+一句话：就是 get 进行「依赖收集」。 set 通过观察者来更新视图。
+
+![](/blog/images/posts/js/vue-compile.png)
