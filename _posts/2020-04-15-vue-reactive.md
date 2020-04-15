@@ -98,13 +98,19 @@ class Vue{
 ```text
 首先在 observer 的过程中会注册 get 方法，该方法用来进行「 依赖收集」。
 在它的闭包中会有一个 Dep 对象，这个对象用来存放 Watcher 对象的实例。
-其实「 依赖收集」的过程就是把 Watcher 实例存放到对 应的Dep对象中去。get方法可以让当前的Watcher对象(Dep.target)存放到它的 subs 中(addSub) 方法，在数据变化时，set 会调用 Dep 对象的 notify 方法通知它内部所有的 Watcher 对象进行视图更新。
+其实「 依赖收集」的过程就是把 Watcher 实例存放到对 应的Dep对象中去。
+get方法可以让当前的Watcher对象(Dep.target)存放到它的 subs 中(addSub) 方法，
+在数据变化时，set 会调用 Dep 对象的 notify 方法通知它内部所有的 Watcher 对象进行视图更新。
 
 这是 Object.defineProperty 的 set/get 方法处理的事情，那么「 依赖收集」的前提条件还有两个:
 1. 触发 get 方法;
 2. 新建一个 Watcher 对象。
 
-这个我们在 Vue 的构造类中处理。新建一个Watcher对象只需要 new 出来，这时候Dep.target已经 指向了这个 new 出来的Watcher对象来。而触发get方法也很简单，实际上只要把 renderfunction 进行渲染，那么其中的依赖的对象都会被「读取」，这里我们通过打印来模拟这个过程，读取 test 来触 发 get 进行「依赖收集」。
+这个我们在 Vue 的构造类中处理。新建一个Watcher对象只需要 new 出来，
+这时候Dep.target已经 指向了这个 new 出来的Watcher对象来。
+而触发get方法也很简单，实际上只要把 renderfunction 进行渲染，
+那么其中的依赖的对象都会被「读取」，这里我们通过打印来模拟这个过程，
+读取 test 来触 发 get 进行「依赖收集」。
 
 一句话：就是 get 进行「依赖收集」。 set 通过观察者来更新视图。
 ```
