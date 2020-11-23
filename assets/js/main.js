@@ -81,8 +81,8 @@ jQuery(function () {
 
 $(function () {
   $.fn.snow({
-    minSize: 10, //雪花的最小尺寸
-    maxSize: 40, //雪花的最大尺寸
-    newOn: 1000 //雪花出现的频率 这个数值越小雪花越多
+    minSize: 13, //雪花的最小尺寸
+    maxSize: 27, //雪花的最大尺寸
+    newOn: 888 //雪花出现的频率 这个数值越小雪花越多
   });
 });
